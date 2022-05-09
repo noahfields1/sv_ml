@@ -1,0 +1,141 @@
+DATA_DIR: "/Users/noah/Desktop/Marsden/files"
+FILE_LIST: "/Users/noah/Desktop/Marsden/files_clean.txt"
+
+NAME: "googlenet_c30_train300k_aug10_clean_point_small_radii"
+TRAINER: "base"
+PREDICTOR: "base"
+EVALUATION: "base"
+MODEL: "GoogleNet"
+DATASET:    "axial2d"
+RESULTS_DIR: "./results"
+LOG_FILE: "/Users/noah/Desktop/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean_small_radii/log/train.txt"
+
+ITER_FILE: "/Users/noah/Desktop/Marsden/sv_ml/resultsgooglenet_c30_train300k_aug10_point_small_radii/log/iter.txt"
+
+MODEL_DIR: "/Users/noah/Desktop/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean_small_radii/model"
+MODEL_NAME: "googlenet"
+MODEL_TYPE: "googlenet"
+
+LOG_STEP: 2000
+LEAK: 0.2
+BATCH_SIZE: 4
+LEARNING_RATE: 0.00005
+TRAIN_STEPS: 10000
+BATCH_SIZE: 4
+L2_REG: 0.0
+NUM_FILTERS: 32
+
+IMAGE_TYPE: "BLUR"
+BLUR_SIGMA: 3
+
+AUGMENT: true
+AUGMENT_FACTOR: 10
+AUGMENT_R_SCALE: 0.65
+CENTER: true
+
+INPUT_DIMS:
+  - 160
+  - 160
+  - 1
+
+BALANCE_RADIUS: false
+R_SMALL: 0.75
+N_SAMPLE: 10000
+
+SPACING: 0.029
+DIMS: 240
+CENTER_DIMS: 200
+CROP_DIMS: 160
+NUM_CHANNELS: 1
+NUM_CONTOUR_POINTS: 30
+
+DROPOUT: 0.6
+
+INIT: 'xavier'
+
+VAL_PATTERNS:
+  - OSMSC0110_CLEAN
+  - cabg5_CLEAN
+  - OSMSC0082_CLEAN
+  - OSMSC0003_CLEAN
+
+TEST_PATTERNS:
+  - OSMSC0006
+  - OSMSC0080
+  - OSMSC0083
+  - OSMSC0101
+  - OSMSC0110
+  - OSMSC0171
+  - OSMSC0178
+  - OSMSC0119
+  - OSMSC0144
+  - OSMSC0148
+  - OSMSC0150
+  - OSMSC0170
+  - OSMSC0177
+  - cabg11
+
+TRAIN_PATTERNS:
+  - OSMSC0144
+  - OSMSC0170
+  - OSMSC0171
+  - OSMSC0169
+  - OSMSC0167
+  - OSMSC0182
+  - OSMSC0068
+  - OSMSC0082
+  - OSMSC0115
+  - OSMSC0135
+  - OSMSC0178
+  - cabg5_CLEAN
+  - normal1
+  - OSMSC0109
+  - OSMSC0159
+  - OSMSC0173
+  - OSMSC0002
+  - OSMSC0136
+  - OSMSC0074
+  - OSMSC0079
+  - OSMSC0087
+  - OSMSC0149
+  - OSMSC0186
+  - OSMSC0177
+  - OSMSC0185
+  - OSMSC0146
+  - OSMSC0066
+  - OSMSC0099
+  - OSMSC0071
+  - OSMSC0166
+  - OSMSC0098
+  - OSMSC0083
+  - OSMSC0168
+  - OSMSC0073
+  - OSMSC0181
+  - OSMSC0147
+  - OSMSC0145
+  - OSMSC0141
+  - OSMSC0161
+  - normal4
+  - OSMSC0080
+  - OSMSC0160
+  - cabg11
+  - OSMSC0078
+  - OSMSC0183
+  - OSMSC0163
+  - OSMSC0116
+  - OSMSC0085
+  - OSMSC0148
+  - OSMSC0001
+  - OSMSC0179
+  - OSMSC0113
+  - OSMSC0142
+  - OSMSC0118
+  - OSMSC0180
+  - OSMSC0004
+  - OSMSC0119
+  - OSMSC0189
+  - cabg5
+  - OSMSC0150
+  - OSMSC0072
+  - OSMSC0005
+  - OSMSC0121

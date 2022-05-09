@@ -85,7 +85,9 @@ class Model(AbstractModel):
     def predict(self,x):
         S = list(x.shape)
         if len(S) == 3:
-            x_ = x.reshape([1]+S)
+            #x_ = x.reshape([1]+S)
+            ###Noah's Change
+            x_ = x.reshape(S+[1])
             return self._predict(x_)[0]
         else:
             out = []

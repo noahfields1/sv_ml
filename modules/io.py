@@ -71,8 +71,10 @@ def read_csv(filename):
             return d
 
 def write_json(data,fn):
+    #f = open(fn,'w')
     with open(fn,'w') as f:
         json.dump(data,f, indent=2)
+    #f.close()
 
 def load_json(fn):
     with open(fn,'r') as f:

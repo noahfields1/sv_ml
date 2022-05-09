@@ -32,7 +32,7 @@ import numpy as np
 
 def pred_to_contour(pred):
     #assume -1,1 extent
-    Npoints  = len(pred)
+    Npoints  = pred.size
     radiuses = pred
     angles   = np.linspace(-0.95,0.95, Npoints)*np.pi
 

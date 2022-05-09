@@ -38,7 +38,7 @@ import scipy
 from scipy.interpolate import UnivariateSpline
 from vtk import vtkImageExport
 from vtk.util import numpy_support
-#from scipy.ndimage import rotate
+from scipy.ndimage import rotate
 
 import os
 
