@@ -5,7 +5,7 @@ def get(config):
         raise RuntimeError("EVALUATION key missing from config")
 
     ev = config['EVALUATION']
-
+ 
     if ev == "base":
         return common.BaseEvaluation(config)
     else:

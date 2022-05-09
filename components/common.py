@@ -147,7 +147,7 @@ def log_prediction(yhat,x,c,meta,path,config):
         x_ = x.reshape((w,w))
     else:
         #print(x.shape, type(x))
-        #x_ = x[:,:,0]
+        x_ = x[:,:,0]
         x_ = x
     plt.figure()
     plt.imshow(x_,cmap='gray',extent=[-scale,scale,scale,-scale])
@@ -236,11 +236,15 @@ class BasePredictor(AbstractPredictor):
 
     def predict(self):
         X = self.X.copy()
+        
+        print("X shape: " + str(X.shape))
         if not self.preprocessor == None:
             X = np.array([self.preprocessor(x) for x in X])
-
+        X = X.reshape((X.shape[0],X.shape[1],X.shape[2],1))
+        print("X shape: " + str(X.shape))
         predictions = self.model.predict(X)
-
+        print("Predictions shape: " + str(predictions.shape))
+        print(predictions)
         path = self.config['RESULTS_DIR']+'/'+self.config['NAME']
         if self.data_key == "VAL":
             path = path+'/val'
@@ -251,12 +255,13 @@ class BasePredictor(AbstractPredictor):
             x = self.X[i]
             x_ = X[i]
             c = self.C[i]
-
+            
             meta = self.meta[i]
             yhat = predictions[i]
-
+            print(yhat)
             self.postprocessor.set_inputs((x,meta))
             yhat = self.postprocessor(yhat)
+            print(yhat)
             c    = self.postprocessor(c)
             log_prediction(yhat,x_,c,meta,path,self.config)
 
@@ -267,6 +272,7 @@ class BaseEvaluation(AbstractEvaluation):
     def setup(self):
         self.results_dir = self.config['RESULTS_DIR']
     def evaluate(self, data_key):
+        
         name = self.config['NAME']
         self.out_dir    = os.path.join(self.results_dir, name,data_key.lower())
         self.pred_dir   = os.path.join(self.out_dir, 'predictions')
@@ -298,18 +304,18 @@ class BaseEvaluation(AbstractEvaluation):
 
             cp_seg = sv.contourToSeg(cpred, ORIGIN, DIMS, SPACING)
             ct_seg = sv.contourToSeg(ctrue, ORIGIN, DIMS, SPACING)
-
+            print(np.sum(ct_seg))
             o = {}
             o['image'] = d['image']
             o['path_name'] = d['path_name']
             o['point'] = d['point']
             o['model_name'] = self.config['NAME']
-            o['HAUSDORFF'] = hd(cp_seg,ct_seg, SPACING)
-            o['ASSD'] = assd(cp_seg, ct_seg, SPACING)
+            #o['HAUSDORFF'] = hd(cp_seg,ct_seg, SPACING)
+            #o['ASSD'] = assd(cp_seg, ct_seg, SPACING)
             o['dice'] = dc(cp_seg, ct_seg)
             o['radius'] = d['radius']
             results.append(o)
-
+        
         df = pd.DataFrame(results)
         df_fn = os.path.join(self.out_dir,'{}.csv'.format(data_key))
         df.to_csv(df_fn)

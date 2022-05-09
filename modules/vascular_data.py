@@ -30,8 +30,8 @@
 #
 import numpy as np
 import vtk
-#import skimage
-#from skimage.measure import grid_points_in_poly
+import skimage
+from skimage.measure import grid_points_in_poly
 import re
 
 import scipy
