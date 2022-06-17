@@ -1,3 +1,16 @@
 __pycache__/
 *.py[cod]
-/results
+#/results/**/test/images
+#/results/**/test/predictions
+/results/**/**/*.png
+/results/**/**/*.json
+/results/**/*.png
+/results/**/*.json
+/results/**/model
+/results/**/**/model
+*.meta
+*.index
+*.png
+*.json
+.DS_Store
+*.txt

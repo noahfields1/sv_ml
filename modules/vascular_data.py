@@ -167,8 +167,6 @@ def interpContour(c,num_pts=15, k=1):
     angles = angles[1:-1]
     x = x[1:-1]
     y = y[1:-1]
-    print(x)
-    print(y)
     x_spline = scipy.interpolate.UnivariateSpline(angles,x,s=0,k=k)
     y_spline = scipy.interpolate.UnivariateSpline(angles,y,s=0,k=k)
     #print("a")

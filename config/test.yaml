@@ -1,18 +1,18 @@
 DATA_DIR: "/home/nfields/gmaher/Marsden/files"
 FILE_LIST: "/home/nfields/gmaher/Marsden/files_clean.txt"
 
-NAME: "googlenet_c30_train20k_clean_small4e-10"
+NAME: "test"
 TRAINER: "base"
 PREDICTOR: "base"
 EVALUATION: "base"
 MODEL: "GoogleNet"
 DATASET:    "axial2d"
 RESULTS_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results"
-LOG_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train20k_clean_small4e-10/log/train.txt"
+LOG_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/test/log/train.txt"
 
-ITER_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train20k_clean_small4e-10/log/iter.txt"
+ITER_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/test/log/iter.txt"
 
-MODEL_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train20k_clean_small4e-10/model"
+MODEL_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results/test/model"
 MODEL_NAME: "googlenet"
 MODEL_TYPE: "googlenet"
 
@@ -25,12 +25,9 @@ BATCH_SIZE: 4
 L2_REG: 0.0
 NUM_FILTERS: 32
 
-IMAGE_TYPE: "BLUR"
-BLUR_SIGMA: 3
 
-#AUGMENT: false
-#AUGMENT_FACTOR: 2
-#AUGMENT_R_SCALE: 0.65
+
+AUGMENT_R_SCALE: 0.65
 CENTER: true
 
 INPUT_DIMS:
@@ -38,8 +35,8 @@ INPUT_DIMS:
   - 160
   - 1
 
-BALANCE_RADIUS: true
-R_SMALL: 0.4
+BALANCE_RADIUS: false
+R_SMALL: 0.75
 N_SAMPLE: 10000
 
 SPACING: 0.029

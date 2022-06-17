@@ -44,7 +44,6 @@ def outlier(y):
 def distance_contour(yc,cd, nc):
     c = sv.marchingSquares(yc, iso=0.5)
     c = sv.reorder_contour(c)
-
     c = (1.0*c-cd)/(cd)
     p = np.mean(c,axis=0)
     c_centered = c
@@ -53,7 +52,6 @@ def distance_contour(yc,cd, nc):
     p = p[:2]
 
     c_reorient = sv.interpContour(c_centered, num_pts=nc)
-
     c_dist = np.sqrt(np.sum(c_reorient**2,axis=1))
 
     return c_dist, p
@@ -88,7 +86,7 @@ def get_dataset(config, key="TRAIN"):
         p = config['OTHER_PATTERNS']
 
         files = [f for f in files if any([s in f.lower() for s in p])]
-
+    
     #creating an array of image data and meta_data: (X,Y,Yc,meta_data)
     data = [read_T(s) for s in files]
 

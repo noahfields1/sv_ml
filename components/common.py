@@ -214,13 +214,10 @@ class BaseTrainer(AbstractTrainer):
 
     def train(self):
         X = self.X
-        print(X.shape)
 
         if not self.preprocessor == None:
             X = np.array([self.preprocessor(x) for x in self.X])
             C = np.array([self.preprocessor.preprocess_label(c) for c in self.C])
-        print(X.shape)
-        print(C.shape)
         #Noah's Code###########
         X = X.reshape((X.shape[0],X.shape[1], X.shape[2], 1))
         ###############
@@ -251,14 +248,10 @@ class BasePredictor(AbstractPredictor):
     def predict(self):
         X = self.X.copy()
         
-        print("X shape: " + str(X.shape))
         if not self.preprocessor == None:
             X = np.array([self.preprocessor(x) for x in X])
         X = X.reshape((X.shape[0],X.shape[1],X.shape[2],1))
-        print("X shape: " + str(X.shape))
         predictions = self.model.predict(X)
-        print("Predictions shape: " + str(predictions.shape))
-        print(predictions)
         path = self.config['RESULTS_DIR']+'/'+self.config['NAME']
         if self.data_key == "VAL":
             path = path+'/val'
@@ -272,10 +265,8 @@ class BasePredictor(AbstractPredictor):
             
             meta = self.meta[i]
             yhat = predictions[i]
-            print(yhat)
             self.postprocessor.set_inputs((x,meta))
             yhat = self.postprocessor(yhat)
-            print(yhat)
             c    = self.postprocessor(c)
             log_prediction(yhat,x_,c,meta,path,self.config)
 
