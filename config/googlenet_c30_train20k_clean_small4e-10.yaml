@@ -1,18 +1,18 @@
-DATA_DIR: "/home/nfields/gmaher/Marsden/files"
-FILE_LIST: "/home/nfields/gmaher/Marsden/files_clean.txt"
+DATA_DIR: "/Users/noah/Desktop/Marsden/files"
+FILE_LIST: "/Users/noah/Desktop/Marsden/files_clean.txt"
 
-NAME: "googlenet_c30_train300k_aug10_clean"
+NAME: "googlenet_c30_train300k_clean_small4e-10"
 TRAINER: "base"
 PREDICTOR: "base"
 EVALUATION: "base"
 MODEL: "GoogleNet"
 DATASET:    "axial2d"
-RESULTS_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results"
-LOG_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/log/train.txt"
+RESULTS_DIR: "/Users/noah/Desktop/Marsden/sv_ml/results"
+LOG_FILE: "/Users/noah/Desktop/Marsden/sv_ml/results/googlenet_c30_train300k_clean_small4e-10/log/train.txt"
 
-ITER_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/log/iter.txt"
+ITER_FILE: "/Users/noah/Desktop/Marsden/sv_ml/results/googlenet_c30_train300k_clean_small4e-10/log/iter.txt"
 
-MODEL_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/model"
+MODEL_DIR: "/Users/noah/Desktop/Marsden/sv_ml/results/googlenet_c30_train300k_clean_small4e-10/model"
 MODEL_NAME: "googlenet"
 MODEL_TYPE: "googlenet"
 
@@ -39,7 +39,7 @@ INPUT_DIMS:
   - 1
 
 BALANCE_RADIUS: false
-R_SMALL: 0.75
+R_SMALL: 0.4
 N_SAMPLE: 10000
 
 SPACING: 0.029

@@ -66,6 +66,20 @@ class BasePreProcessor(AbstractPreProcessor):
                 mu  = 1.0*np.mean(x_)
                 sig = 1.0*np.std(x_)+EPS
                 x_   = (x_-mu)/sig
+
+            if self.config['IMAGE_TYPE'] == 'FRANGI':
+                x_ = filters.frangi(x)
+                mu  = 1.0*np.mean(x_)
+                sig = 1.0*np.std(x_)+EPS
+                x_   = (x_-mu)/sig
+
+            if self.config['IMAGE_TYPE'] == 'GABOR':
+                x_ = filters.gabor(x, frequency = 0.3)
+                print("Gabor Shape: " + str(x_.shape))
+                mu  = 1.0*np.mean(x_)
+                sig = 1.0*np.std(x_)+EPS
+                x_   = (x_-mu)/sig
+
         #Gabriel's Code
         #x_ = x_.reshape(self.config['INPUT_DIMS'])
         #return x_.copy()

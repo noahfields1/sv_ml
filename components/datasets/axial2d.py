@@ -22,9 +22,11 @@ def radius_balance(X,Y,meta, r_thresh, Nsample):
     N = X.shape[0]
     radiuses = [m['radius']*m['spacing'] for m in meta]
 
+    #contains indices for where small and large indices are in 
     i_sm     = [i for i in range(N) if radiuses[i] <= r_thresh]
     i_lg     = [i for i in range(N) if radiuses[i] > r_thresh]
 
+    #randomly chooses Nsample large and small radii images from our data
     index    = random.choices(i_sm,k=Nsample)+random.choices(i_lg,k=Nsample)
 
     X_ = [X[i] for i in index]
@@ -56,6 +58,7 @@ def distance_contour(yc,cd, nc):
 
     return c_dist, p
 
+"""This function is called by factories/dataset_factory.py"""
 def get_dataset(config, key="TRAIN"):
     """
     setup and return requested dataset
@@ -64,6 +67,7 @@ def get_dataset(config, key="TRAIN"):
         key    - string - either TRAIN, VAL, or TEST
     """
 
+    #obtains a list of all the images
     files = open(config['FILE_LIST']).readlines()
     files = [s.replace('\n','') for s in files]
 
@@ -76,36 +80,47 @@ def get_dataset(config, key="TRAIN"):
     else:
         raise RuntimeError("Unrecognized data key {}".format(key))
 
-    files = [f for f in files if any([s in f for s in patterns])]
+    #trimming down files_clean.txt for only 3D voxels present only in TRAIN_PATTERNS, VAL_PATTERNS, or TEST_PATTERNS 
+    files = [f for f in files if any([s in f for s in patterns])] #For 's' in 'TRAIN_PATTERNS', if that string is a substring of a file in 'files_clean.txt' we keep it. If file is part of 'train_patterns' in config file
+
 
     if "OTHER_PATTERNS" in config:
         p = config['OTHER_PATTERNS']
 
         files = [f for f in files if any([s in f.lower() for s in p])]
 
+    #creating an array of image data and meta_data: (X,Y,Yc,meta_data)
     data = [read_T(s) for s in files]
 
+    #creating an array of just meta_data
     meta = [d[3] for d in data]
 
+    #creating an array of just input images for all 3D voxels in patterns: X
     X    = np.array([d[0] for d in data])
 
     cr   = int(X.shape[1]/2)
     cc   = int(config['CENTER_DIMS']/2)
     cd   = int(config['CROP_DIMS']/2)
 
+    #creating an array of just output images: Y
     Yc   = np.array([d[2] for d in data])
 
+    #creates a radius threshold for small and large radiuses as well as making an array of radii size
     r_thresh = config['R_SMALL']
     radiuses = [m['radius']*m['spacing'] for m in meta]
 
+    #apparently we can add this into config file to split sizes?
     if 'SIZE_SPLIT' in config:
         print("splitting size")
+        #recording indices of yaml files in files_clean.txt that have radii larger than the r_thresh determined in our config file
         if config.get('SIZE_SPLIT') == 'LARGE':
             indexes = [i for i in range(X.shape[0]) if radiuses[i] > r_thresh]
 
+        #recording indices of yaml files in files_clean.txt that have radii smaller than the r_thresh determined in our config file
         if config.get('SIZE_SPLIT') == 'SMALL':
             indexes = [i for i in range(X.shape[0]) if radiuses[i] <= r_thresh]
 
+        #now our data consists of only 3D voxels we want and only images in that 3D voxel that have radii filtered to 'SIZE_SPLIT' in the config file
         X        = np.array([X[i] for i in indexes])
         Yc       = np.array([Yc[i] for i in indexes])
         meta     = [meta[i] for i in indexes]
@@ -139,10 +154,12 @@ def get_dataset(config, key="TRAIN"):
     X  = None
     Yc = None
 
+    #Allows us to make sure we have a balanced dataset for small and large radii data; hence 'radius_balance'
     if config['BALANCE_RADIUS'] and key=='TRAIN':
         X_center,Y_center,meta = radius_balance(X_center,Y_center,meta,
         config['R_SMALL'], config['N_SAMPLE'])
 
+    #augment data by rotation
     if "AUGMENT" in config and key == 'TRAIN':
         aug_x = []
         aug_y = []
@@ -196,3 +213,6 @@ def get_dataset(config, key="TRAIN"):
     meta = m_final
 
     return X_,contours,meta
+
+"""Valuable Insights: 
+1. Training Data can be filtered to only include """

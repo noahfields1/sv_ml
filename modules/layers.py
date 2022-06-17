@@ -516,3 +516,101 @@ def GoogleNet(x, activation=tf.nn.relu, init='xavier', dropout=0.7,
             std='xavier', scope='output')
 
         return o, o_side
+def GoogleNetNorm(x, activation=tf.nn.relu, init='xavier', dropout=0.7,
+    scope='googlenet', output_size=1000):
+    #input branch
+    with tf.variable_scope(scope):
+        o = conv2D(x, nfilters=64, dims=[7,7], strides=[1,1], activation=activation,
+            init=init, scope='input_7x7')
+
+        o = tf.nn.pool(o, [3,3], "MAX", "VALID", strides=[2,2])
+
+        print("pool 1", o)
+
+        o = conv2D(o, nfilters=64, dims=[1,1], strides=[1,1], activation=activation,
+            init=init, scope='input_1x1_r')
+
+        o = conv2D(o, nfilters=192, dims=[3,3], strides=[1,1], activation=activation,
+            init=init, scope='input_3x3')
+
+        o = tf.nn.pool(o, [3,3], "MAX", "VALID", strides=[2,2])
+
+        print("pool_2", o)
+
+        #inception layers 3
+        o = inception(o, c1x1=64, c3x3_reduce=96, c3x3=128, c5x5_reduce=16,
+            c5x5=32, c1x1_pool=32, activation=activation, init=init, scope="inception_3a")
+
+        o = inception(o, c1x1=128, c3x3_reduce=128, c3x3=192, c5x5_reduce=32,
+            c5x5=96, c1x1_pool=64, activation=activation, init=init, scope="inception_3b")
+
+        #inception layers 4
+        o = tf.nn.pool(o, [3,3], "MAX", "VALID", strides=[2,2])
+
+        print("pool 3", o)
+
+        o = inception(o, c1x1=192, c3x3_reduce=96, c3x3=208, c5x5_reduce=16,
+            c5x5=48, c1x1_pool=64, activation=activation, init=init, scope="inception_4a")
+
+        o = inception(o, c1x1=160, c3x3_reduce=112, c3x3=224, c5x5_reduce=24,
+            c5x5=64, c1x1_pool=64, activation=activation, init=init, scope="inception_4b")
+
+        o = inception(o, c1x1=128, c3x3_reduce=128, c3x3=256, c5x5_reduce=24,
+            c5x5=64, c1x1_pool=64, activation=activation, init=init, scope="inception_4c")
+
+        o = inception(o, c1x1=112, c3x3_reduce=144, c3x3=288, c5x5_reduce=32,
+            c5x5=64, c1x1_pool=64, activation=activation, init=init, scope="inception_4d")
+
+        o = inception(o, c1x1=256, c3x3_reduce=160, c3x3=320, c5x5_reduce=32,
+            c5x5=128, c1x1_pool=129, activation=activation, init=init, scope="inception_4e")
+
+        #side output 1
+        o_side = tf.nn.pool(o, [5,5], "AVG", "VALID", strides=[3,3])
+
+        print("pool side", o_side)
+
+        o_side = conv2D(o_side, nfilters=128, dims=[1,1], strides=[1,1], activation=activation,
+            init=init, scope='side_1x1')
+
+        s_side = o_side.get_shape().as_list()
+
+        o_side_vec = tf.reshape(o_side,shape=[-1,s_side[1]*s_side[2]*s_side[3]])
+
+        o_side = fullyConnected(o_side_vec, output_units=1024, activation=activation,
+            std='xavier', scope='side_fc1')
+
+        o_side = tf.nn.dropout(o_side, keep_prob=dropout)
+
+        o_side = fullyConnected(o_side, output_units=output_size, activation=tf.identity,
+            std='xavier', scope='side_output')
+
+        #inception layers 5
+        o = tf.nn.pool(o, [3,3], "MAX", "VALID", strides=[2,2])
+
+        print("pool 5", o)
+
+        o = inception(o, c1x1=256, c3x3_reduce=160, c3x3=320, c5x5_reduce=32,
+            c5x5=128, c1x1_pool=128, activation=activation, init=init, scope="inception_5a")
+
+        o = inception(o, c1x1=384, c3x3_reduce=192, c3x3=384, c5x5_reduce=48,
+            c5x5=128, c1x1_pool=128, activation=activation, init=init, scope="inception_5b")
+
+        #final output
+        o = tf.nn.pool(o, [7,7], "AVG", "VALID", strides=[1,1])
+
+        print("pool final", o)
+
+        s = o.get_shape().as_list()
+
+        o = tf.reshape(o,shape=[-1,s[1]*s[2]*s[3]])
+
+        o = tf.nn.dropout(o, keep_prob=dropout)
+
+        o = fullyConnected(o, output_units=1024, activation=activation,
+            std='xavier', scope='output_fc1')
+
+        o = fullyConnected(o, output_units=output_size, activation=tf.identity,
+            std='xavier', scope='output')
+
+        return o, o_side
+

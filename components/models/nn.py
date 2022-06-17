@@ -64,8 +64,7 @@ class Model(AbstractModel):
         if np.sum(np.isnan(x)) > 0: return
         if np.sum(np.isnan(y)) > 0: return
         self.sess.run(self.train_op,{self.x:x,self.y:y})
-        #print("Hello")
-        #self.sess.close()
+
         
 
     def save(self, model_path=None):
@@ -579,8 +578,8 @@ class GoogleNet(Model):
         o,o_side = tf_util.GoogleNet(self.x, activation=leaky_relu, init=INIT,
             scope='googlenet', output_size=NUM_POINTS, dropout=DROPOUT)
 
-        print(o)
-        print(o_side)
+        #print(o)
+        #print(o_side)
 
         self.yhat = tf.nn.sigmoid(o)
         self.yhat_side = tf.nn.sigmoid(o_side)

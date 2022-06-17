@@ -1,18 +1,18 @@
 DATA_DIR: "/home/nfields/gmaher/Marsden/files"
 FILE_LIST: "/home/nfields/gmaher/Marsden/files_clean.txt"
 
-NAME: "googlenet_c30_train300k_aug10_clean"
+NAME: "googlenet_c30_train300k_aug10_clean_blur0"
 TRAINER: "base"
 PREDICTOR: "base"
 EVALUATION: "base"
 MODEL: "GoogleNet"
 DATASET:    "axial2d"
 RESULTS_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results"
-LOG_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/log/train.txt"
+LOG_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean_blur0/log/train.txt"
 
-ITER_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/log/iter.txt"
+ITER_FILE: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean_blur0/log/iter.txt"
 
-MODEL_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean/model"
+MODEL_DIR: "/home/nfields/gmaher/Marsden/sv_ml/results/googlenet_c30_train300k_aug10_clean_blur0/model"
 MODEL_NAME: "googlenet"
 MODEL_TYPE: "googlenet"
 
@@ -25,8 +25,6 @@ BATCH_SIZE: 4
 L2_REG: 0.0
 NUM_FILTERS: 32
 
-IMAGE_TYPE: "BLUR"
-BLUR_SIGMA: 3
 
 AUGMENT: true
 AUGMENT_FACTOR: 2
